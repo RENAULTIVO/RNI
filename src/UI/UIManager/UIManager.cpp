@@ -38,9 +38,9 @@ void UIManager::onMouseMove(SDL_Event *event) {
   for (unsigned short int i=0; i<components.size(); i++) {
 
     if (x > components[i]->getX()
-    && x < (components[i]->getX() + components[i]->getWidth())
+    && x < (components[i]->getX() + components[i]->getOffsetWidth())
     && y > components[i]->getY()
-    && y < (components[i]->getY() + components[i]->getHeight())) {
+    && y < (components[i]->getY() + components[i]->getOffsetHeight())) {
 
       if (!components[i]->isMouseHovering()) {
         components[i]->onMouseEnter(event);
@@ -55,18 +55,18 @@ void UIManager::onMouseMove(SDL_Event *event) {
     if (components[i]->isMouseDown()
       && components[i]->isDraggable()) {
 
-        components[i]->setX(
-          components[i]->getX() - (components[i]->lastX - event->motion.x)
-        );
+      components[i]->setX(
+        components[i]->getX() - (components[i]->props.lastX - event->motion.x)
+      );
 
-        components[i]->setY(
-          components[i]->getY() - (components[i]->lastY - event->motion.y)
-        );
-        
-        components[i]->lastX = event->motion.x;
-        components[i]->lastY = event->motion.y;
+      components[i]->setY(
+        components[i]->getY() - (components[i]->props.lastY - event->motion.y)
+      );
+      
+      components[i]->props.lastX = event->motion.x;
+      components[i]->props.lastY = event->motion.y;
 
-      }
+    }
 
   }
 
@@ -82,19 +82,19 @@ void UIManager::onMouseDown(SDL_Event *event) {
   for (int i=components.size()-1; i>=0; i--) {
 
     if (x > components[i]->getX()
-      && x < (components[i]->getX() + components[i]->getWidth())
+      && x < (components[i]->getX() + components[i]->getOffsetWidth())
       && y > components[i]->getY()
-      && y < (components[i]->getY() + components[i]->getHeight())) {
+      && y < (components[i]->getY() + components[i]->getOffsetHeight())) {
 
       components[i]->onMouseDown(event);
 
       UIComponent *temp = components[i];
 
-        for (int z=i; z<components.size()-1; z++) {
-          components[z] = components[z+1];
-        }
+      for (int z=i; z<components.size()-1; z++) {
+        components[z] = components[z+1];
+      }
 
-        components[components.size()-1] = temp;
+      components[components.size()-1] = temp;
 
       break;
 
@@ -114,9 +114,9 @@ void UIManager::onMouseUp(SDL_Event *event) {
   for (unsigned short int i=0; i<components.size(); i++) {
 
     if (x > components[i]->getX()
-      && x < (components[i]->getX() + components[i]->getWidth())
+      && x < (components[i]->getX() + components[i]->getOffsetWidth())
       && y > components[i]->getY()
-      && y < (components[i]->getY() + components[i]->getHeight())) {
+      && y < (components[i]->getY() + components[i]->getOffsetHeight())) {
       components[i]->onMouseUp(event);
     }
 

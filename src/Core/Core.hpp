@@ -8,11 +8,11 @@ struct EngineState {
   bool isRunning;
 };
 
-class Engine {
+class Core {
 
   private:
-    Engine();
-    static Engine *instance;
+    Core();
+    static Core *instance;
 
     EngineState state;
 
@@ -21,6 +21,7 @@ class Engine {
     unsigned short int height;
 
     SDL_Window *window;
+    SDL_Surface *surface;
     SDL_Renderer *renderer;
 
   public:
@@ -36,6 +37,7 @@ class Engine {
     void events();
     void update();
     bool isRunning();
+    void onResize(SDL_Event *event);
 
     unsigned short int getScreenWidth();
     unsigned short int getScreenHeight();
@@ -43,7 +45,7 @@ class Engine {
     SDL_Window *getWindow();
     SDL_Renderer *getRenderer();
 
-    static Engine *getInstance();
+    static Core *getInstance();
 };
 
 #endif

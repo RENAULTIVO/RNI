@@ -1,5 +1,5 @@
 #include "Transition.hpp"
-#include "../../Engine/Engine.hpp"
+#include "../../Core/Core.hpp"
 
 Transition::Transition(
   UIComponent *targetComponent,
@@ -35,7 +35,7 @@ void Transition::loop(
   for (props.currentTime = 0; props.currentTime < props.duration; props.currentTime++) {
     props.currentValue += valueIncreasePerIteration;
     eventListener(targetComponent, props.currentValue);
-    Engine::getInstance()->render();
+    Core::getInstance()->render();
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
 

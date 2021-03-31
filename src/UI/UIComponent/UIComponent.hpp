@@ -3,12 +3,26 @@
 #include <iostream>
 #include <vector>
 #include <SDL2/SDL.h>
+#include "../UILayout/UILayout.hpp"
 #include "../Color/Color.hpp"
 #include "../../Input/Mouse/Mouse.hpp"
 
 struct UIComponentProperties {
-  float top = 0;
-  float left = 0;
+  int lastX = 0;
+  int lastY = 0;
+  int zIndex = 0;
+  int scrollX = 0;
+  int scrollY = 0;
+  int width = UISize::AUTO;
+  int height = UISize::AUTO;
+  int maxWidth = UISize::AUTO;
+  int maxHeight = UISize::AUTO;
+  bool isWidthAuto = true;
+  bool isHeightAuto = true;
+  UIMargin margin;
+  UIPadding padding;
+  float offsetTop = 0;
+  float offsetLeft = 0;
   bool offsetChanged = false;
   bool isDraggable = false;
 };
@@ -16,8 +30,6 @@ struct UIComponentProperties {
 class UIComponent {
 
   private:
-
-    short int zIndex = 0;
     std::string id;
     std::string name;
     Color *borderColor;
@@ -26,20 +38,19 @@ class UIComponent {
     SDL_Rect windowRect;
     UIComponent *parent;
     std::vector<UIComponent*> children;
-    UIComponentProperties props;
 
   public:
-    int lastX;
-    int lastY;
 
     UIComponent(
       std::string id,
       std::string name,
       float x, float y,
-      float width, float height,
+      float width = UISize::AUTO, float height = UISize::AUTO,
       Color *backgroundColor = new Color(22, 22, 22, 255),
       Color *borderColor = new Color(255, 215, 0, 255)
     );
+
+    UIComponentProperties props;
 
     std::string getID();
     std::string getName();
@@ -48,8 +59,6 @@ class UIComponent {
     
     void moveX(float moviment);
     void moveY(float moviment);
-
-    void setZIndex(short int zIndex);
 
     void setX(float x);
     void setY(float y);
@@ -60,9 +69,22 @@ class UIComponent {
     float getWidth();
     float getHeight();
 
+    float getOffsetWidth();
+    float getOffsetHeight();
+
+    void setMaxWidth(float maxWidth);
+
+    void setMargin(float margin);
+    void setMargin(float vertical, float horizontal);
+    void setMargin(float top, float right, float bottom, float left);
+
+    UIMargin *getMargins();
+
     bool isMouseDown();
     bool isDraggable();
     bool isMouseHovering();
+
+    void setAsDraggable(bool draggable);
 
     void onMouseEnter(SDL_Event *event);
     void onMouseLeave(SDL_Event *event);
@@ -73,8 +95,12 @@ class UIComponent {
     void onMouseDown(SDL_Event *event);
     void onContextMenu(SDL_Event *event);
 
+    void onParentOffsetChange();
+    void onParentOffsetChange(float x, float y);
+
     void setParent(UIComponent *parent);
-    void addChildren(UIComponent *component);
+    UIComponent *appendChild(UIComponent *component);
+    UIComponent *appendChild(std::vector<UIComponent*> componentList);
 
 };
 

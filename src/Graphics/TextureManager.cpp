@@ -1,5 +1,5 @@
 #include "TextureManager.hpp"
-#include "../Engine/Engine.hpp"
+#include "../Core/Core.hpp"
 
 TextureManager *TextureManager::instance = nullptr;
 
@@ -26,7 +26,7 @@ bool TextureManager::load(
   }
 
   SDL_Texture *texture = SDL_CreateTextureFromSurface(
-    Engine::getInstance()->getRenderer(),
+    Core::getInstance()->getRenderer(),
     surface    
   );
 
@@ -61,7 +61,7 @@ void TextureManager::draw(
   destinationRect.h = height;
 
   SDL_RenderCopyEx(
-    Engine::getInstance()->getRenderer(),
+    Core::getInstance()->getRenderer(),
     textureMap[textureID],
     &sourceRect, &destinationRect,
     0, nullptr,

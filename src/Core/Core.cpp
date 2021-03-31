@@ -1,30 +1,30 @@
 #include <iostream>
 #include <time.h>
-#include "Engine.hpp"
+#include "Core.hpp"
 #include "../Graphics/TextureManager.cpp"
 #include "../Events/EventHandler.cpp"
 #include "../UI/UIManager/UIManager.cpp"
 
-Engine *Engine::instance = nullptr;
+Core *Core::instance = nullptr;
 
-Engine::Engine() {
+Core::Core() {
   
 }
 
-Engine *Engine::getInstance() {
+Core *Core::getInstance() {
 
   if (instance == nullptr) {
-    instance = new Engine();
+    instance = new Core();
   }
 
   return instance;
 
 }
 
-void Engine::init(
-      std::string name,
-      unsigned short int width,
-      unsigned short int height
+void Core::init(
+  std::string name,
+  unsigned short int width,
+  unsigned short int height
 ) {
 
   this->name = name;
@@ -48,7 +48,7 @@ void Engine::init(
     SDL_WINDOWPOS_CENTERED,
     SDL_WINDOWPOS_CENTERED,
     this->width, this->height,
-    0
+    SDL_WINDOW_RESIZABLE
   );
 
   if (window == nullptr) {
@@ -76,61 +76,36 @@ void Engine::init(
   float x, float y,
   float width, float height,*/
 
-  UIManager::getInstance()->addComponent(new UIComponent(
-    "topLeft",
-    "My Component",
-    0, 0,
-    250, 200
-  ));
-
-  UIComponent *rightMenu = new UIComponent(
-    "rightMenu",
-    "My Component",
-    this->getScreenWidth() - 250, 0,
-    250, height
-  );
-
-  rightMenu->addChildren(new UIComponent(
-    "topButton",
-    "Top Button",
-    10, 10,
-    100, 100,
-    new Color(255, 255, 255)
-  ));
-
-  UIManager::getInstance()->addComponent(rightMenu);
-
-  UIManager::getInstance()->addComponent(new UIComponent(
-    "bottomLeft",
-    "My Component",
-    0, this->getScreenHeight() - 200,
-    250, 200
-  ));
-
   SDL_SetRenderDrawColor(renderer, 34, 34, 34, 255);
   SDL_RenderClear(renderer);
 
 }
 
-void Engine::events() {
+void Core::events() {
   EventHandler::getInstance()->listen();
 }
 
-void Engine::quit() {
+void Core::quit() {
   SDL_Quit();
   IMG_Quit();
   exit(EXIT_SUCCESS);
 }
 
-bool Engine::isRunning() {
+bool Core::isRunning() {
   return state.isRunning;
 }
 
-unsigned short int Engine::getScreenWidth() {
+void Core::onResize(SDL_Event *event) {
+
+
+
+}
+
+unsigned short int Core::getScreenWidth() {
   return this->width;
 }
 
-unsigned short int Engine::getScreenHeight() {
+unsigned short int Core::getScreenHeight() {
   return this->height;
 }
 
@@ -140,7 +115,7 @@ unsigned short int Engine::getScreenHeight() {
 
 // 60
 
-void Engine::render() {
+void Core::render() {
 
   /*TextureManager::getInstance()->draw(
     "tree",
@@ -159,10 +134,10 @@ void Engine::render() {
 
 }
 
-SDL_Window *Engine::getWindow() {
+SDL_Window *Core::getWindow() {
   return window;
 }
 
-SDL_Renderer *Engine::getRenderer() {
+SDL_Renderer *Core::getRenderer() {
   return renderer;
 }

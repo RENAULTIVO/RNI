@@ -31,7 +31,7 @@ void EventHandler::listen() {
     
     switch (event.type) {
       case SDL_QUIT:
-        Engine::getInstance()->quit();
+        Core::getInstance()->quit();
         break;
       case SDL_KEYDOWN: {
         Input::getInstance()->keyPressed();
@@ -57,6 +57,16 @@ void EventHandler::listen() {
         */
         break;
       }
+      case SDL_WINDOWEVENT:
+
+        switch (event.window.event) {
+          case SDL_WINDOWEVENT_SIZE_CHANGED:
+            break;
+          default:
+            break;
+        }
+
+        Core::getInstance()->onResize(&event);
       default:
         break;
     }
