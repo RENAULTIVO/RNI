@@ -11,7 +11,6 @@ int main(int argc, char **argv) {
     Core::getInstance()->getScreenWidth() - 250, 0
   );
 
-
   UIComponent *leftButton =  new UIComponent(
     "leftButton",
     "Left Button",
@@ -19,23 +18,25 @@ int main(int argc, char **argv) {
     100, 100
   );
 
-  leftButton->setAsDraggable(true);
-
   leftButton->setMargin(10);
 
   UIComponent *insideLeftButton = new UIComponent(
     "insideRightButton",
     "Inside Right Button",
-    10, 10,
+    0, 0,
     50, 50
   );
+
+  insideLeftButton->setMargin(20);
 
   UIComponent *insideLeftButtonChild = new UIComponent(
     "insideLeftButtonChild",
     "Inside Right Button child",
-    10, 10,
+    0, 0,
     20, 20
   );
+
+  insideLeftButtonChild->setMargin(20);
 
   insideLeftButton->appendChild(insideLeftButtonChild);
   leftButton->appendChild(insideLeftButton);

@@ -35,7 +35,6 @@ UIComponent::UIComponent(
     this->props.offsetTop = x;
   }
 
-
   if (y > 0) {
   this->props.offsetLeft = y;
   }

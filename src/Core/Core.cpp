@@ -97,7 +97,7 @@ bool Core::isRunning() {
 
 void Core::onResize(SDL_Event *event) {
 
-
+  
 
 }
 
